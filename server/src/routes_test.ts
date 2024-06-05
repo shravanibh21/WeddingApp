@@ -1,7 +1,7 @@
 import * as assert from 'assert';
 import * as httpMocks from 'node-mocks-http';
 //import { dummy } from './routes';
-import {save, resetGuestsForTesting, values} from './routes'
+import {save, resetGuestsForTesting, values, remove} from './routes'
 
 describe('routes', function() {
 
@@ -100,6 +100,65 @@ describe('routes', function() {
     // Called to clear all saved designs created in this test
     //    to not effect future tests
     resetGuestsForTesting();
+  })
+
+  it('remove', function() {
+    //Invalid name, not a string
+    const req = httpMocks.createRequest(
+        {method: 'POST', url: '/remove', body: {name: 1086}});
+    const res = httpMocks.createResponse();
+    remove(req, res);
+    assert.deepStrictEqual(res._getStatusCode(), 400);
+    assert.deepStrictEqual(res._getData(),
+        'required argument "name" was missing');
+    
+    //Invalid name, name missing
+    const req1 = httpMocks.createRequest(
+        {method: 'POST', url: '/remove', body: {removed: "some stuff"}});
+    const res1 = httpMocks.createResponse();
+    remove(req1, res1);
+    assert.deepStrictEqual(res1._getStatusCode(), 400);
+    assert.deepStrictEqual(res1._getData(),
+        'required argument "name" was missing');
+
+    // ______________________Create a server to test remove_______________
+    const req2 = httpMocks.createRequest({method: 'POST', url: '/save',
+    body: {name: "abc", content: "abc val"}});
+    const res2 = httpMocks.createResponse();
+    save(req2, res2);
+
+    const req3 = httpMocks.createRequest({method: 'POST', url: '/save',
+    body: {name: "abc", content: "abc val new"}});
+    const res3 = httpMocks.createResponse();
+    save(req3, res3);
+
+    const req4 = httpMocks.createRequest({method: 'POST', url: '/save',
+    body: {name: "def", content: "def val"}});
+    const res4 = httpMocks.createResponse();
+    save(req4, res4);
+
+    //_______________ Tetsing remvoe ______________________
+    const reqRemove1 = httpMocks.createRequest({method: 'POST', url: '/remove', 
+        body: {name: "abc"}});
+    const resRemove1 = httpMocks.createResponse();
+    remove(reqRemove1, resRemove1);
+    assert.deepStrictEqual(resRemove1._getStatusCode(), 200);
+    assert.deepStrictEqual(resRemove1._getData(), {removed: true});
+
+  
+    const reqRemove2 = httpMocks.createRequest({method: 'POST', url: '/remove',
+        body: {name: "abc"}});
+    const resRemove2 = httpMocks.createResponse();
+    remove(reqRemove2, resRemove2);
+    assert.deepStrictEqual(resRemove2._getStatusCode(), 200);
+    assert.deepStrictEqual(resRemove2._getData(), {removed: false});
+    
+    const reqRemove3 = httpMocks.createRequest({method: 'POST', url: '/remove',
+    body: {name: "ghi"}});
+    const resRemove3 = httpMocks.createResponse();
+    remove(reqRemove3, resRemove3);
+    assert.deepStrictEqual(resRemove3._getStatusCode(), 200);
+    assert.deepStrictEqual(resRemove3._getData(), {removed: false})
   })
 
 

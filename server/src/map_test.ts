@@ -105,4 +105,18 @@ describe('map', function(){
         testMap.setValue('jkl', 'new val jkl')
         assert.deepStrictEqual(testMap.getValues(), ['abc val', 'new val jkl', 'mno val']);
     })
+
+    it('removeValues', function() {
+        testMap.clearMap();
+        assert.deepStrictEqual(testMap.removeValue("abc"), false);
+        testMap.setValue('abc', 'abc val');
+        testMap.setValue('abc', 'abc val new')
+        assert.deepStrictEqual(testMap.removeValue("abc"), true);
+        assert.deepStrictEqual(testMap.removeValue("abc"), false); //one remove call must remove all pairs of that key
+        testMap.setValue('def', 'def val');
+        testMap.setValue('ghi', 'ghi val');
+        assert.deepStrictEqual(testMap.removeValue("xyz"), false);
+        
+        
+    })
 });

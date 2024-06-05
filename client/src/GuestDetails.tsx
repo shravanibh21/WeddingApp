@@ -14,6 +14,7 @@ type GuestDetailsProps = {
     currGuest: Guest,
     onSave: (guest: GuestInfo, index: number) => void,
     onBack: () => void,
+    onDelete: (name: string) => void,
 }
 
 type GuestDetailsState = {
@@ -50,6 +51,7 @@ export class GuestDetails extends Component<GuestDetailsProps, GuestDetailsState
                 {this.renderPlusOneInfo()}<br/><br/>
                 <button type='button' onClick={this.doSaveClick}>Save</button>
                 <button type='button' onClick={this.doBackClick}>Back</button>
+                <button type='button' onClick={this.doDeleteClick}>Delete Guest</button>
                 {this.renderError()}
             </div>
         )
@@ -182,5 +184,18 @@ export class GuestDetails extends Component<GuestDetailsProps, GuestDetailsState
 
     doPlusOneDietChange = (evt: ChangeEvent<HTMLInputElement>): void => {
         this.setState({plusOneDiet: evt.target.value, error: ""});
+    }
+
+    /**
+     * Calls the callback to safely delete the guest whose details page is open
+     * @requires currGuest prop's name field to be non-empty
+     * @param _evt click event for the delete button
+     */
+    doDeleteClick = (_evt: MouseEvent<HTMLButtonElement>): void => {
+        if(this.props.currGuest.name === undefined || this.props.currGuest.name === "name") {
+            throw new Error("Guest doesn't have a name"); //Impossible to reach this error, safety measure
+        }
+        
+        this.props.onDelete(this.props.currGuest.name);
     }
 }

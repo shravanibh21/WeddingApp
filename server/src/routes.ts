@@ -32,6 +32,15 @@ export const values = (_req: SafeRequest, res: SafeResponse): void => {
   res.send({values: guests.getValues()});
 }
 
+export const remove = (req: SafeRequest, res: SafeResponse): void => {
+  const name = first(req.body.name);
+  if(name === undefined || typeof name !== 'string') {
+    res.status(400).send('required argument "name" was missing');
+    return;
+  }
+
+  res.send({removed: guests.removeValue(name)});
+}
 /** 
  * Used in tests to set the designs map back to empty. 
  * (exported ONLY for testing)
@@ -39,8 +48,7 @@ export const values = (_req: SafeRequest, res: SafeResponse): void => {
 export const resetGuestsForTesting = (): void => {
   // TODO(): implement this function
   guests.clearMap();
-};
-
+}
 
 // Helper to return the (first) value of the parameter if any was given.
 // (This is mildly annoying because the client can also give mutiple values,

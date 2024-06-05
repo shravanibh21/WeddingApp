@@ -41,6 +41,7 @@ export class WeddingApp extends Component<{}, WeddingAppState> {
                       index={this.state.show.index}
                       onSave={this.doSaveFromDetailsClick}
                       onBack={this.doBackClick}
+                      onDelete={this.doDeleteClick}
         />
       );
     }
@@ -49,6 +50,47 @@ export class WeddingApp extends Component<{}, WeddingAppState> {
   componentDidMount = (): void => {
       this.doListGuestsFetch();
   }
+
+  doDeleteClick = (name: string): void => {
+    const body = {name: name};
+    fetch("/api/remove", {
+        method: "POST", body: JSON.stringify(body),
+        headers: {"Content-Type": "application/json"} })
+      .then(this.doDeleteResp)
+      .catch(() => this.doDeleteError("failed to connect to server"));
+
+  }
+
+  doDeleteResp = (resp: Response): void => {
+    if (resp.status === 200) {
+      resp.json().then(this.doDeleteJson)
+          .catch(() => this.doDeleteError("200 response is not JSON"));
+    } else if (resp.status === 400) {
+      resp.text().then(this.doDeleteError)
+          .catch(() => this.doDeleteError("400 response is not text"));
+    } else {
+      this.doDeleteError(`bad status code from /api/remove: ${resp.status}`);
+    }
+  }
+
+  doDeleteJson = (data: unknown): void => {
+    if (!isRecord(data)) {
+      console.error("bad data from /api/delete: not a record", data);
+      return;
+    }
+
+    if(data.removed) {
+      this.doListGuestsFetch();  //only re-fetch guest list from server if the guest was removed
+    } else {
+      this.setState({show: "list"}); //works like a back button if nothing removed.
+    }
+
+  };
+
+  doDeleteError = (msg: string): void => {
+    console.error(`Error fetching /api/remove: ${msg}`);
+  }
+  
 
   doAddFromListClick = (): void => {
     console.log("Add on list page clicked");
@@ -120,5 +162,7 @@ doListJson = (val: unknown): void => {
 doListError = (msg: string): void => {
   console.error(`Error fetching /api/values: ${msg}`);
 };
+
+
 
 }

@@ -19,6 +19,9 @@ export interface MutableMap {
     /**@retruns true if the value associated with the given key is replaced*/
     setValue: (key : string, val : unknown) => boolean;
 
+    /**@returns true if the value associated with the given key is removed */
+    removeValue: (key: string) => boolean;
+    
     /**Clears the map*/
     clearMap: () => void;
 
@@ -82,6 +85,13 @@ class SimpleMap implements MutableMap {
         }
         return isReplaced;
     }
+
+    /**
+     * @param key: the pair associated with this key will be removed from the map
+     * @returns true if the pair was successfully removed
+     */
+    removeValue = (key: string): boolean => {return this.simpleMap.delete(key);} 
+    
 
     /**
      * Clears the map completely.

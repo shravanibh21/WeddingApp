@@ -115,8 +115,7 @@ describe('map', function(){
         assert.deepStrictEqual(testMap.removeValue("abc"), false); //one remove call must remove all pairs of that key
         testMap.setValue('def', 'def val');
         testMap.setValue('ghi', 'ghi val');
-        assert.deepStrictEqual(testMap.removeValue("xyz"), false);
-        
+        assert.deepStrictEqual(testMap.removeValue("xyz"), false);       
         
     })
 });

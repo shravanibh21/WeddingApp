@@ -10,7 +10,7 @@ type AddGuestProps = {
 
 type AddGuestSates = {
     name: string,
-    host: "James" | "Molly" | "",
+    host: "Host 1" | "Host 2" | "",
     isFamily: boolean,
     error: string,
 }
@@ -34,11 +34,11 @@ export class AddGuest extends Component<AddGuestProps, AddGuestSates> {
 
                 <div>
                     <h3>Invited By: </h3>
-                    <input type="radio" id="hostClick" name="host" value="James" checked={this.state.host === "James"} onChange={this.doHostChange}></input>
-                    <label htmlFor="James">James</label>
+                    <input type="radio" id="hostClick" name="host" value="Host 1" checked={this.state.host === "Host 1"} onChange={this.doHostChange}></input>
+                    <label htmlFor="Host 1">Host 1</label>
                     <br/>
-                    <input type="radio" id="hostClick" name="host" value="Molly" checked={this.state.host === "Molly"} onChange={this.doHostChange}></input>
-                    <label htmlFor="Molly">Molly</label>
+                    <input type="radio" id="hostClick" name="host" value="Host 2" checked={this.state.host === "Host 2"} onChange={this.doHostChange}></input>
+                    <label htmlFor="Host 2">Host 2</label>
                 </div>
                 <div>
                     <br/><br/>
@@ -66,8 +66,8 @@ export class AddGuest extends Component<AddGuestProps, AddGuestSates> {
     };
 
     doHostChange = (evt: ChangeEvent<HTMLInputElement>): void => {
-        evt.target.value === "James" ? this.setState({host: "James", error: ""}) : 
-                                       this.setState({host: "Molly", error: ""})
+        evt.target.value === "Host 1" ? this.setState({host: "Host 1", error: ""}) : 
+                                       this.setState({host: "Host 2", error: ""})
         
     }
 
@@ -90,7 +90,7 @@ export class AddGuest extends Component<AddGuestProps, AddGuestSates> {
             return;
         }
 
-        const hostVal: "James" | "Molly" = this.state.host === "James" ? "James" : "Molly";
+        const hostVal: "Host 1" | "Host 2" = this.state.host === "Host 1" ? "Host 1" : "Host 2";
         const args = { name: this.state.name,
             isFamily: this.state.isFamily, host: hostVal,
             hasPlusOne: -1, };
@@ -120,7 +120,7 @@ export class AddGuest extends Component<AddGuestProps, AddGuestSates> {
           return;
         }
     
-        const hostVal: "James" | "Molly" = this.state.host === "James" ? "James" : "Molly";
+        const hostVal: "Host 1" | "Host 2" = this.state.host === "Host 1" ? "Host 1" : "Host 2";
 
         console.log("save successful");
         this.props.onAddGuest({

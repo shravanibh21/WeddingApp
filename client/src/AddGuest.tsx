@@ -1,6 +1,7 @@
 import React, { Component, MouseEvent, ChangeEvent } from 'react';
 import { Guest } from './guest';
 import { isRecord } from './record';
+import './StyleSheet.css'
 
 type AddGuestProps = {
     onAddGuest: (guest: Guest) =>  void;
@@ -10,7 +11,7 @@ type AddGuestProps = {
 
 type AddGuestSates = {
     name: string,
-    host: "Host 1" | "Host 2" | "",
+    host: "Host A" | "Host B" | "",
     isFamily: boolean,
     error: string,
 }
@@ -34,11 +35,11 @@ export class AddGuest extends Component<AddGuestProps, AddGuestSates> {
 
                 <div>
                     <h3>Invited By: </h3>
-                    <input type="radio" id="hostClick" name="host" value="Host 1" checked={this.state.host === "Host 1"} onChange={this.doHostChange}></input>
-                    <label htmlFor="Host 1">Host 1</label>
+                    <input type="radio" id="hostClick" name="host" value="Host A" checked={this.state.host === "Host A"} onChange={this.doHostChange}></input>
+                    <label htmlFor="Host A">Host A</label>
                     <br/>
-                    <input type="radio" id="hostClick" name="host" value="Host 2" checked={this.state.host === "Host 2"} onChange={this.doHostChange}></input>
-                    <label htmlFor="Host 2">Host 2</label>
+                    <input type="radio" id="hostClick" name="host" value="Host B" checked={this.state.host === "Host B"} onChange={this.doHostChange}></input>
+                    <label htmlFor="Host B">Host B</label>
                 </div>
                 <div>
                     <br/><br/>
@@ -46,8 +47,8 @@ export class AddGuest extends Component<AddGuestProps, AddGuestSates> {
                     <input type="checkbox" id="familyCheck" checked={this.state.isFamily} onChange={this.doIsFamilyChange}></input>
                 </div>
                 <br/><br/>
-                <button id="addButton" onClick={this.doAddClick}>Add Guest</button>
-                <button id="backButton" onClick={this.doBackClick}>Back</button>
+                <button className="animated-button" id="addButton" onClick={this.doAddClick}>Add Guest</button>
+                <button className="animated-button" id="backButton" onClick={this.doBackClick}>Back</button>
                 {this.renderError()}
             </div>
         )
@@ -66,8 +67,8 @@ export class AddGuest extends Component<AddGuestProps, AddGuestSates> {
     };
 
     doHostChange = (evt: ChangeEvent<HTMLInputElement>): void => {
-        evt.target.value === "Host 1" ? this.setState({host: "Host 1", error: ""}) : 
-                                       this.setState({host: "Host 2", error: ""})
+        evt.target.value === "Host A" ? this.setState({host: "Host A", error: ""}) : 
+                                       this.setState({host: "Host B", error: ""})
         
     }
 
@@ -80,6 +81,7 @@ export class AddGuest extends Component<AddGuestProps, AddGuestSates> {
     }
 
     doAddClick = (_evt: MouseEvent<HTMLButtonElement>): void => {
+        console.log("button clikced");
         if(this.state.name === "") {
             this.setState({error: "Name of the guest is missing"});
             return;
@@ -90,7 +92,7 @@ export class AddGuest extends Component<AddGuestProps, AddGuestSates> {
             return;
         }
 
-        const hostVal: "Host 1" | "Host 2" = this.state.host === "Host 1" ? "Host 1" : "Host 2";
+        const hostVal: "Host A" | "Host B" = this.state.host === "Host A" ? "Host A" : "Host B";
         const args = { name: this.state.name,
             isFamily: this.state.isFamily, host: hostVal,
             hasPlusOne: -1, };
@@ -120,7 +122,7 @@ export class AddGuest extends Component<AddGuestProps, AddGuestSates> {
           return;
         }
     
-        const hostVal: "Host 1" | "Host 2" = this.state.host === "Host 1" ? "Host 1" : "Host 2";
+        const hostVal: "Host A" | "Host B" = this.state.host === "Host A" ? "Host A" : "Host B";
 
         console.log("save successful");
         this.props.onAddGuest({

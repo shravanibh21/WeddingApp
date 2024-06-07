@@ -1,5 +1,7 @@
 import React, { Component, MouseEvent } from 'react';
 import { Guest } from './guest';
+import './StyleSheet.css'
+
 
 type GuestListProps = {
     guests: ReadonlyArray<Guest>,
@@ -20,11 +22,17 @@ export class GuestList extends Component<GuestListProps, {}> {
     render = (): JSX.Element =>  {
         return(
             <div>
-                <h2>Guest List</h2>
-                <ul>{this.renderGuests()}</ul>
-                <h2>Summary</h2>
-                <p>{this.renderSummary()}</p>
-                <button type="button" id="addGuest" onClick={this.doAddClick}>Add Guest</button>
+                <h1>WEDDING APP</h1>
+                <div id="guestList">
+                    <h2>Guest List</h2>
+                    <ul>{this.renderGuests()}</ul>
+                </div>
+
+                <div id="summary">
+                    <h2>Summary</h2>
+                    <p>{this.renderSummary()}</p>
+                </div>
+                <button className="animated-button" type="button" id="addGuest" onClick={this.doAddClick}>Add Guest</button>
             </div>
         )
     }
@@ -57,14 +65,14 @@ export class GuestList extends Component<GuestListProps, {}> {
     //Renders the summary section, calculates the rage or solid number and sends back JSX
     renderSummary = (): JSX.Element => {
         return (
-            <div>
-                <p>Guests of Host 1 - {this.getGuestNums("Host 1")}</p>
-                <p>Guests of Host 2 - {this.getGuestNums("Host 2")}</p>
+            <div id="inner">
+                <p>Guests of Host A - {this.getGuestNums("Host A")}</p>
+                <p>Guests of Host B - {this.getGuestNums("Host B")}</p>
             </div>
         )
     }
 
-    getHasUnconfirmed = (index: number, host: "Host 1" | "Host 2"): boolean => {
+    getHasUnconfirmed = (index: number, host: "Host A" | "Host B"): boolean => {
         if(index === this.props.guests.length) {
             return false;
         } else if(this.props.guests[index].host === host && this.props.guests[index].hasPlusOne === -1) {
@@ -74,7 +82,7 @@ export class GuestList extends Component<GuestListProps, {}> {
         }
     }
 
-    getMinConfirmed = (index: number, soFar: number, host: "Host 1" | "Host 2"): number => {
+    getMinConfirmed = (index: number, soFar: number, host: "Host A" | "Host B"): number => {
         if(index === this.props.guests.length) {
             return soFar;
         } else if(this.props.guests[index].host === host) {
@@ -89,7 +97,7 @@ export class GuestList extends Component<GuestListProps, {}> {
         }
     }
 
-    getMaxUnconfirmed = (index: number, soFar: number, host: "Host 1" | "Host 2"): number => {
+    getMaxUnconfirmed = (index: number, soFar: number, host: "Host A" | "Host B"): number => {
         if(index === this.props.guests.length) {
             return soFar;
         } else if(this.props.guests[index].host === host && this.props.guests[index].hasPlusOne === -1) {
@@ -99,7 +107,7 @@ export class GuestList extends Component<GuestListProps, {}> {
         }
     }
 
-    getFamilyCount = (index: number, soFar: number, host: "Host 1" | "Host 2" ): number => {
+    getFamilyCount = (index: number, soFar: number, host: "Host A" | "Host B" ): number => {
         if(index === this.props.guests.length) {
             return soFar;
         } else if((this.props.guests[index].host === host) && (this.props.guests[index].isFamily)) {
@@ -109,7 +117,7 @@ export class GuestList extends Component<GuestListProps, {}> {
         }
     }
 
-    getGuestNums = (host: "Host 1" | "Host 2"): string => {
+    getGuestNums = (host: "Host A" | "Host B"): string => {
         const hasUncofirmed: boolean = this.getHasUnconfirmed(0, host);
         const minConfm: number = this.getMinConfirmed(0, 0, host);
         const maxUnConfm: number = this.getMaxUnconfirmed(0, 0, host);

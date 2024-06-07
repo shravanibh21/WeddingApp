@@ -1,6 +1,7 @@
 import React, { Component, MouseEvent, ChangeEvent } from 'react';
 import { Guest } from './guest';
 import { isRecord } from './record';
+import './StyleSheet.css'
 
 export type GuestInfo = {
     diet: string | undefined,
@@ -49,9 +50,9 @@ export class GuestDetails extends Component<GuestDetailsProps, GuestDetailsState
                     <option value= "0">0</option>
                 </select>
                 {this.renderPlusOneInfo()}<br/><br/>
-                <button type='button' onClick={this.doSaveClick}>Save</button>
-                <button type='button' onClick={this.doBackClick}>Back</button>
-                <button type='button' onClick={this.doDeleteClick}>Delete Guest</button>
+                <button className="animated-button" type='button' onClick={this.doSaveClick}>Save</button>
+                <button className="animated-button" type='button' onClick={this.doBackClick}>Back</button>
+                <button className="animated-button" id="deleteButton" type='button' onClick={this.doDeleteClick}>Delete Guest</button>
                 {this.renderError()}
             </div>
         )

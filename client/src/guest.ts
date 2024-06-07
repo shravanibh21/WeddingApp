@@ -5,7 +5,7 @@ import { isRecord } from "./record";
 export type Guest = {
     readonly name: string,
     readonly isFamily: boolean,
-    readonly host: "Host 1" | "Host 2",
+    readonly host: "Host A" | "Host B",
     readonly hasPlusOne: -1 | 0 | 1,
     readonly diet?: string,
     readonly plusOneName?: string,
@@ -24,7 +24,7 @@ export type Guest = {
       return undefined;
     }
   
-    if ((val.host !== "Host 1") && (val.host !== "Host 2")) {
+    if ((val.host !== "Host A") && (val.host !== "Host B")) {
       console.error("not a guest: missing 'host'", val)
       return undefined;
     }

@@ -4,6 +4,7 @@ import { Guest, parseGuest } from "./guest";
 import { GuestList } from "./GuestList";
 import { AddGuest } from "./AddGuest";
 import { GuestDetails, GuestInfo } from "./GuestDetails";
+import './StyleSheet.css'
 
 /** Displays the UI of the Wedding rsvp application. */
 type Page = "list" | "new" | {kind: "details", index: number};
